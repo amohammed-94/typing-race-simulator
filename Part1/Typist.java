@@ -165,6 +165,10 @@ public class Typist
         {
             progress -= amount;
         }
+        if (progress < 0)
+        {
+            progress = 0;
+        }
     }
 
     /**
