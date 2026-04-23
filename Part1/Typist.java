@@ -161,7 +161,10 @@ public class Typist
      */
     public void slideBack(int amount)
     {
-
+        if(amount > 0)
+        {
+            progress -= amount;
+        }
     }
 
     /**
