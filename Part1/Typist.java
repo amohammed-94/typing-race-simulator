@@ -140,7 +140,9 @@ public class Typist
      */
     public void resetToStart()
     {
-
+        progress = 0;
+        isBurntOut = false;
+        burnoutTurnsRemaining = 0;
     }
 
     /**
