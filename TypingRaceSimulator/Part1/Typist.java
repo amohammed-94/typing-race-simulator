@@ -214,7 +214,7 @@ public class Typist
      */
     public void setSymbol(char newSymbol)
     {
-
+        symbol = newSymbol;
     }
 
 }
