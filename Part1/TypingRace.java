@@ -75,39 +75,51 @@ public class TypingRace
      * you can probably figure that out yourself."
      */
     public void startRace()
+{
+    boolean finished = false;
+
+    // Reset all typists
+    seat1Typist.resetToStart();
+    seat2Typist.resetToStart();
+    seat3Typist.resetToStart();
+
+    while (!finished)
     {
-        boolean finished = false;
+        // Advance each typist
+        advanceTypist(seat1Typist);
+        advanceTypist(seat2Typist);
+        advanceTypist(seat3Typist);
 
-        // Reset all typists to the start of the passage
-        // (Ty was in a hurry here)
-        seat1Typist.resetToStart();
-        seat2Typist.resetToStart();
-        seat3Typist.resetToStart();
+        // Print race state
+        printRace();
 
-        while (!finished)
+        // Check if race is finished
+        if (raceFinishedBy(seat1Typist) || 
+            raceFinishedBy(seat2Typist) || 
+            raceFinishedBy(seat3Typist))
         {
-            // Advance each typist by one turn
-            advanceTypist(seat1Typist);
-            advanceTypist(seat2Typist);
-            advanceTypist(seat3Typist);
-
-            // Print the current state of the race
-            printRace();
-
-            // Check if any typist has finished the passage
-            if ( raceFinishedBy(seat1Typist) || raceFinishedBy(seat2Typist) || raceFinishedBy(seat3Typist) )
-            {
-                finished = true;
-            }
-
-            // Wait 200ms between turns so the animation is visible
-            try {
-                TimeUnit.MILLISECONDS.sleep(200);
-            } catch (Exception e) {}
+            finished = true;
         }
 
-        // TODO (Task 2a): Print the winner's name here
+        // Pause for animation
+        try {
+            TimeUnit.MILLISECONDS.sleep(200);
+        } catch (Exception e) {}
     }
+
+    if (raceFinishedBy(seat1Typist))
+    {
+        System.out.println("And the winner is... " + seat1Typist.getName() + "!");
+    }
+    else if (raceFinishedBy(seat2Typist))
+    {
+        System.out.println("And the winner is... " + seat2Typist.getName() + "!");
+    }
+    else if (raceFinishedBy(seat3Typist))
+    {
+        System.out.println("And the winner is... " + seat3Typist.getName() + "!");
+    }
+}
 
     /**
      * Simulates one turn for a typist.
