@@ -56,7 +56,11 @@ public class Typist
      */
     public void burnOut(int turns)
     {
-
+        if (turns > 0)
+        {
+            isBurntOut = true;
+            burnoutTurnsRemaining = turns;
+        }
     }
 
     /**
