@@ -70,7 +70,15 @@ public class Typist
      */
     public void recoverFromBurnout()
     {
-
+        if (isBurntOut)
+        {
+            burnoutTurnsRemaining--;
+            if (burnoutTurnsRemaining <= 0)
+            {
+                isBurntOut = false;
+                burnoutTurnsRemaining = 0;
+            }
+        }
     }
 
     /**
