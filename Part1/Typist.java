@@ -23,6 +23,7 @@ public class Typist
     private int progress;
     private boolean isBurntOut;
     private int burnoutTurnsRemaining;
+    private boolean justMistyped;
 
 
 
@@ -182,6 +183,7 @@ public class Typist
         if (progress < 0)
         {
             progress = 0;
+            justMistyped = true;
         }
     }
 
@@ -215,6 +217,15 @@ public class Typist
     public void setSymbol(char newSymbol)
     {
         symbol = newSymbol;
+    }
+
+    public boolean hasJustMistyped()
+    {
+        return justMistyped;
+    }
+    public void resetMistype()
+    {
+        justMistyped = false;
     }
 
 }

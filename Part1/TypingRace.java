@@ -236,8 +236,8 @@ if (Math.random() < (1.0 - theTypist.getAccuracy()) * MISTYPE_BASE_CHANCE){
     {
         if (theTypist == null)
         {
-    System.out.println("| empty seat |");
-    return;
+            System.out.println("| empty seat |");
+            return;
         }
         int displayProgress = Math.min(theTypist.getProgress(), passageLength);
         int spacesBefore = displayProgress;
@@ -249,6 +249,12 @@ if (Math.random() < (1.0 - theTypist.getAccuracy()) * MISTYPE_BASE_CHANCE){
         // Always show the typist's symbol so they can be identified on screen.
         // Append ~ when burnt out so the state is visible without hiding identity.
         System.out.print(theTypist.getSymbol());
+
+        if (theTypist.hasJustMistyped())
+        {
+            System.out.print("[<]");
+            theTypist.resetMistype();
+        }
         if (theTypist.isBurntOut())
         {
             System.out.print('~');
