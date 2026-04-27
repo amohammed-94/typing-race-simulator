@@ -227,6 +227,11 @@ if (Math.random() < (1.0 - theTypist.getAccuracy()) * MISTYPE_BASE_CHANCE){
      */
     private void printSeat(Typist theTypist)
     {
+        if (theTypist == null)
+        {
+    System.out.println("| empty seat |");
+    return;
+        }
         int spacesBefore = theTypist.getProgress();
         int spacesAfter  = passageLength - theTypist.getProgress();
 
