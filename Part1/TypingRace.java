@@ -107,17 +107,24 @@ public class TypingRace
         } catch (Exception e) {}
     }
 
-    if (raceFinishedBy(seat1Typist))
-    {
-        System.out.println("And the winner is... " + seat1Typist.getName() + "!");
+    Typist winner = null;
+
+    
+    if (raceFinishedBy(seat1Typist)) {
+        winner = seat1Typist;
     }
-    else if (raceFinishedBy(seat2Typist))
-    {
-        System.out.println("And the winner is... " + seat2Typist.getName() + "!");
+    else if (raceFinishedBy(seat2Typist)) {
+        winner = seat2Typist;
     }
-    else if (raceFinishedBy(seat3Typist))
-    {
-        System.out.println("And the winner is... " + seat3Typist.getName() + "!");
+    else if (raceFinishedBy(seat3Typist)) {
+        winner = seat3Typist;
+    }
+    if (winner != null) {
+        double oldAccuracy = winner.getAccuracy();
+        winner.setAccuracy(oldAccuracy + 0.02);
+
+        System.out.println("And the winner is... " + winner.getName() + "!");
+        System.out.println("Final accuracy: " + winner.getAccuracy() + " (improved from " + oldAccuracy + ")");
     }
 }
 
@@ -232,8 +239,9 @@ if (Math.random() < (1.0 - theTypist.getAccuracy()) * MISTYPE_BASE_CHANCE){
     System.out.println("| empty seat |");
     return;
         }
-        int spacesBefore = theTypist.getProgress();
-        int spacesAfter  = passageLength - theTypist.getProgress();
+        int displayProgress = Math.min(theTypist.getProgress(), passageLength);
+        int spacesBefore = displayProgress;
+        int spacesAfter  = passageLength - displayProgress;
 
         System.out.print('|');
         multiplePrint(' ', spacesBefore);
