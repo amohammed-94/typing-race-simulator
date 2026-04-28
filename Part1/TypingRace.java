@@ -39,6 +39,19 @@ public class TypingRace
         seat2Typist = null;
         seat3Typist = null;
     }
+    public static void main(String[] args)
+    {
+        TypingRace race = new TypingRace(50);
+        Typist t1 = new Typist('1', "ALICE", 0.85);
+        Typist t2 = new Typist('2', "BOB", 0.40);
+        Typist t3 = new Typist('3', "CHARLIE", 0.60);
+
+        race.addTypist(t1, 1);
+        race.addTypist(t2, 2);
+        race.addTypist(t3, 3);
+
+        race.startRace();
+    }
 
     /**
      * Seats a typist at the given seat number (1, 2, or 3).
