@@ -55,7 +55,18 @@ public class MainGUI {
                     charlieBar.getValue() >= 100)
                     {
                         ((Timer)e.getSource()).stop();
-                        statusLabel.setText("Race Finished!");
+                        if (aliceBar.getValue() >= 100)
+                        {
+                            statusLabel.setText("ALICE wins!");
+                        }
+                        else if (bobBar.getValue() >= 100)
+                        {
+                            statusLabel.setText("BOB wins!");
+                        }
+                        else
+                        {
+                            statusLabel.setText("CHARLIE wins!");
+                        }
                 }
                 }
         });
