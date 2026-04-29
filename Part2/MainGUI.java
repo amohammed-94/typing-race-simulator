@@ -44,10 +44,24 @@ public class MainGUI {
             public void actionPerformed(ActionEvent e) {
                 statusLabel.setText("Race Started!");
             
-            aliceBar.setValue(85);
-            bobBar.setValue(60);
-            charlieBar.setValue(40);
-            }
+            Timer timer = new Timer(200, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    aliceBar.setValue(aliceBar.getValue() + (int)(Math.random() *10));
+                    bobBar.setValue(bobBar.getValue() + (int)(Math.random() *10));
+                    charlieBar.setValue(charlieBar.getValue() + (int)(Math.random() *10));
+
+                if (aliceBar.getValue() >= 100 ||
+                    bobBar.getValue() >= 100 ||
+                    charlieBar.getValue() >= 100)
+                    {
+                        ((Timer)e.getSource()).stop();
+                        statusLabel.setText("Race Finished!");
+                }
+                }
+        });
+
+        timer.start();
+    }
         });
 
         frame.add(titleLabel, BorderLayout.NORTH);
