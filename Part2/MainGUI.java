@@ -23,6 +23,10 @@ public class MainGUI {
 
         JLabel statusLabel = new JLabel("Click 'Start Race' to begin.", SwingConstants.CENTER);
 
+        String passage = "The quick brown fox jumps over the lazy dog.";
+        JLabel passageLabel = new JLabel("Passage: The quick brown fox jumps over the lazy dog.", SwingConstants.CENTER);
+        passageLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+
         JPanel racePanel = new JPanel();
         racePanel.setLayout(new GridLayout(3,1));
 
@@ -52,9 +56,23 @@ public class MainGUI {
                     bobBar.setValue(bobBar.getValue() + (int)(Math.random() *10));
                     charlieBar.setValue(charlieBar.getValue() + (int)(Math.random() *10));
 
+                    int progress = aliceBar.getValue() /2;
+
+                    if (progress > passage.length())
+                    {
+                        progress = passage.length();
+                    }
+                    String completed = passage.substring(0, progress).toUpperCase();
+                    String remaining = passage.substring(progress);
+
+                    passageLabel.setText("Passage: " + completed + remaining);
+
                 if (aliceBar.getValue() >= 100 ||
                     bobBar.getValue() >= 100 ||
                     charlieBar.getValue() >= 100)
+
+                    
+
                     {
                         ((Timer)e.getSource()).stop();
                         if (aliceBar.getValue() >= 100)
@@ -86,7 +104,10 @@ public class MainGUI {
             }
         });
 
-        frame.add(titleLabel, BorderLayout.NORTH);
+        JPanel topPanel = new JPanel(new GridLayout(2,1));
+        topPanel.add(titleLabel);
+        topPanel.add(passageLabel);
+
         frame.add(racePanel, BorderLayout.CENTER);
         frame.add(startButton, BorderLayout.WEST);
         frame.add(resetButton, BorderLayout.EAST);
