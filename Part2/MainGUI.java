@@ -26,6 +26,11 @@ public class MainGUI {
         JComboBox<String> passageSelector = new JComboBox<>(
             new String[] {"Short", "Medium", "Long"}
         );
+
+        JComboBox<Integer> seatCountSelector = new JComboBox<>(
+            new Integer[] {2, 3, 4, 5, 6}
+        );
+
         JLabel statusLabel = new JLabel("Click 'Start Race' to begin.", SwingConstants.CENTER);
 
         final String[] passage = {"The quick brown fox jumps over the lazy dog."};
@@ -136,11 +141,12 @@ public class MainGUI {
             }
         });
 
-        JPanel topPanel = new JPanel(new GridLayout(3,1));
+        JPanel topPanel = new JPanel(new GridLayout(5,1));
         topPanel.add(titleLabel);
         topPanel.add(passageLabel);
         topPanel.add(passageSelector);
         topPanel.add(autocorrectBox);
+        topPanel.add(seatCountSelector);
 
         frame.add(topPanel, BorderLayout.NORTH);
         frame.add(racePanel, BorderLayout.CENTER);
