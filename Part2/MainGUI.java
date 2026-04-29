@@ -52,8 +52,8 @@ public class MainGUI {
             
             Timer timer = new Timer(200, new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    aliceBar.setValue(aliceBar.getValue() + (int)(Math.random() *10));
-                    bobBar.setValue(bobBar.getValue() + (int)(Math.random() *10));
+                    aliceBar.setValue(aliceBar.getValue() + (int)(Math.random() *12));
+                    bobBar.setValue(bobBar.getValue() + (int)(Math.random() *8));
                     charlieBar.setValue(charlieBar.getValue() + (int)(Math.random() *10));
 
                     int progress = aliceBar.getValue() /2;
