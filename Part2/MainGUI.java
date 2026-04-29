@@ -19,6 +19,8 @@ public class MainGUI {
 
         JButton startButton = new JButton("Start Race");
 
+        JButton resetButton = new JButton("Reset Race");
+
         JLabel statusLabel = new JLabel("Click 'Start Race' to begin.", SwingConstants.CENTER);
 
         JPanel racePanel = new JPanel();
@@ -75,9 +77,19 @@ public class MainGUI {
     }
         });
 
+        resetButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                aliceBar.setValue(0);
+                bobBar.setValue(0);
+                charlieBar.setValue(0);
+                statusLabel.setText("Race reset. Click 'Start Race' to begin.");
+            }
+        });
+
         frame.add(titleLabel, BorderLayout.NORTH);
         frame.add(racePanel, BorderLayout.CENTER);
         frame.add(startButton, BorderLayout.WEST);
+        frame.add(resetButton, BorderLayout.EAST);
         frame.add(statusLabel, BorderLayout.SOUTH);
         frame.setVisible(true);
     }
