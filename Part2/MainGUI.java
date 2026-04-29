@@ -21,6 +21,8 @@ public class MainGUI {
 
         JButton resetButton = new JButton("Reset Race");
 
+        JCheckBox autocorrectBox = new JCheckBox("Autocorrect");
+
         JLabel statusLabel = new JLabel("Click 'Start Race' to begin.", SwingConstants.CENTER);
 
         String passage = "The quick brown fox jumps over the lazy dog.";
@@ -52,9 +54,20 @@ public class MainGUI {
             
             Timer timer = new Timer(200, new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    aliceBar.setValue(aliceBar.getValue() + (int)(Math.random() *12));
-                    bobBar.setValue(bobBar.getValue() + (int)(Math.random() *8));
-                    charlieBar.setValue(charlieBar.getValue() + (int)(Math.random() *10));
+                    int aliceMove = (int)(Math.random() * 12);
+                    int bobMove = (int)(Math.random() * 8);
+                    int charlieMove = (int)(Math.random() * 10);
+
+                    if (autocorrectBox.isSelected())
+                    {
+                        aliceMove = aliceMove / 2;
+                        bobMove = bobMove / 2;
+                        charlieMove = charlieMove / 2;
+                    }
+
+                    aliceBar.setValue(aliceBar.getValue() + aliceMove);
+                    bobBar.setValue(bobBar.getValue() + bobMove);
+                    charlieBar.setValue(charlieBar.getValue() + charlieMove);
 
                     int progress = aliceBar.getValue() /2;
 
