@@ -5,12 +5,13 @@ import javax.swing.*;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.*;
+import java.awt.Dimension;
 
 public class MainGUI {
     public static void main(String[] args) {
         // Create the main frame
         JFrame frame = new JFrame ("Typing Race GUI");
-        frame.setSize(700, 450);
+        frame.setSize(1000, 800);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
@@ -20,6 +21,8 @@ public class MainGUI {
         JButton startButton = new JButton("Start Race");
 
         JButton resetButton = new JButton("Reset Race");
+
+        JButton compareButton = new JButton("Compare Typists");
 
         JCheckBox autocorrectBox = new JCheckBox("Autocorrect");
 
@@ -57,11 +60,17 @@ public class MainGUI {
         
         JLabel bestLabel = new JLabel("Personal Bests: ALICE - 0 WPM | BOB - 0 WPM | CHARLIE - 0 WPM", SwingConstants.CENTER);
 
+        JLabel leaderboardLabel = new JLabel("Leaderboard: ALICE - 0pts | BOB - 0pts | CHARLIE - 0pts", SwingConstants.CENTER);
+
         final long[] startTime = {0};
 
         final double[] aliceBestWPM = new double[1];
         final double[] bobBestWPM = new double[1];
         final double[] charlieBestWPM = new double[1];
+
+        final int[] alicePoints = {0};
+        final int[] bobPoints = {0};
+        final int[] charliePoints = {0};
 
         final String[] passage = {"The quick brown fox jumps over the lazy dog."};
 
@@ -70,6 +79,11 @@ public class MainGUI {
 
         JPanel racePanel = new JPanel();
         racePanel.setLayout(new GridLayout(3,1));
+
+        JTextArea historyArea = new JTextArea(5,30);
+        historyArea.setEditable(false);
+
+        JScrollPane historyScroll = new JScrollPane(historyArea);
 
         JProgressBar aliceBar = new JProgressBar(0, 100);
         aliceBar.setStringPainted(true);
@@ -287,8 +301,11 @@ public class MainGUI {
                     int burnout = (int)(Math.random() * 3);
                     double accuracyChange = accuracy - 85;
 
+                    String winnerName = "";
+
                     if (aliceBar.getValue() >= 100)
                         {
+                            winnerName = "ALICE";
                             if (wpm > aliceBestWPM[0])
                             {
                                 aliceBestWPM[0] = wpm;
@@ -297,6 +314,7 @@ public class MainGUI {
                         }
                         else if (bobBar.getValue() >= 100)
                         {
+                            winnerName = "BOB";
                             if(wpm > bobBestWPM[0])
                             {
                                 bobBestWPM[0] = wpm;
@@ -306,13 +324,34 @@ public class MainGUI {
                         }
                         else
                         {
+                            winnerName = "CHARLIE";
                             if(wpm > charlieBestWPM[0])
                             {
                                 charlieBestWPM[0] = wpm;
                             }
                             statusLabel.setText("CHARLIE wins! WPM: " + (int)wpm +" | Accuracy: " + (int)accuracy + "% | Burnout: " + burnout + " turns | Accuracy Change: " + (int)accuracyChange + "%");
                         }
-                            bestLabel.setText("Personal Bests: ALICE - " + (int)aliceBestWPM[0] + " WPM | BOB - " + (int)bobBestWPM[0] + " WPM | CHARLIE - " + (int)charlieBestWPM[0] + " WPM");
+
+                        if(winnerName.equals("ALICE"))
+                        {
+                            alicePoints[0]+=3;
+                        }
+                        else if(winnerName.equals("BOB"))
+                        {
+                            bobPoints[0]+=3;
+                        }
+                        else
+                        {
+                            charliePoints[0]+=3;
+                        }
+
+                        leaderboardLabel.setText("Leaderboard: ALICE - " + alicePoints[0] + "pts | BOB - " + bobPoints[0] + "pts | CHARLIE - " + charliePoints[0] + "pts");
+
+                        bestLabel.setText("Personal Bests: ALICE - " + (int)aliceBestWPM[0] + " WPM | BOB - " + (int)bobBestWPM[0] + " WPM | CHARLIE - " + (int)charlieBestWPM[0] + " WPM");
+
+                            historyArea.append(
+                                winnerName + " won | WPM: " + (int)wpm + " | Accuracy: " + (int)accuracy + "% | Burnout: " + burnout + " turns | Accuracy Change: " + (int)accuracyChange + "%\n"
+                            );
                     }
                 }    
                 });
@@ -330,7 +369,16 @@ public class MainGUI {
             }
         });
 
-        JPanel topPanel = new JPanel(new GridLayout(15,1));
+        compareButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(frame, 
+                    "Typist Comparison:\n" + "ALICE Best WPM: " + (int)aliceBestWPM[0] + "\nBOB Best WPM: " + (int)bobBestWPM[0] + "\nCHARLIE Best WPM: " + (int)charlieBestWPM[0],
+                    "Comparison View",
+                    JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+        JPanel topPanel = new JPanel(new GridLayout(0,1));
         topPanel.add(titleLabel);
         topPanel.add(passageLabel);
         topPanel.add(passageSelector);
@@ -346,14 +394,25 @@ public class MainGUI {
         topPanel.add(energyDrinkBox);
         topPanel.add(headphonesBox);
 
-        frame.add(topPanel, BorderLayout.NORTH);
+        JScrollPane controlScroll = new JScrollPane(topPanel);
+        controlScroll.setPreferredSize(new Dimension(260, 500));
+
+        frame.add(titleLabel, BorderLayout.NORTH);
+        frame.add(controlScroll, BorderLayout.EAST);
         frame.add(racePanel, BorderLayout.CENTER);
-        frame.add(startButton, BorderLayout.WEST);
-        frame.add(resetButton, BorderLayout.EAST);
-        
-        JPanel bottomPanel = new JPanel(new GridLayout(2,1));
+
+        JPanel buttonPanel = new JPanel(new GridLayout(3,1));
+        buttonPanel.add(startButton);
+        buttonPanel.add(resetButton);
+        buttonPanel.add(compareButton);
+
+        frame.add(buttonPanel, BorderLayout.WEST);
+
+        JPanel bottomPanel = new JPanel(new GridLayout(4,1));
         bottomPanel.add(statusLabel);
         bottomPanel.add(bestLabel);
+        bottomPanel.add(leaderboardLabel);
+        bottomPanel.add(historyScroll);
 
         frame.add(bottomPanel, BorderLayout.SOUTH);
 
