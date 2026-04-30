@@ -47,6 +47,8 @@ public class MainGUI {
             new String[] {"Blue", "Red", "Green", "Orange"}
         );
 
+        JTextField symbolField = new JTextField("A");
+
         JLabel statusLabel = new JLabel("Click 'Start Race' to begin.", SwingConstants.CENTER);
 
         final String[] passage = {"The quick brown fox jumps over the lazy dog."};
@@ -59,15 +61,12 @@ public class MainGUI {
 
         JProgressBar aliceBar = new JProgressBar(0, 100);
         aliceBar.setStringPainted(true);
-        aliceBar.setString("ALICE");
 
         JProgressBar bobBar = new JProgressBar(0, 100);
         bobBar.setStringPainted(true);
-        bobBar.setString("BOB");
 
         JProgressBar charlieBar = new JProgressBar(0, 100);
         charlieBar.setStringPainted(true);
-        charlieBar.setString("CHARLIE");
 
         racePanel.add(aliceBar);
         racePanel.add(bobBar);
@@ -77,6 +76,12 @@ public class MainGUI {
             public void actionPerformed(ActionEvent e) {
                 statusLabel.setText("Race Started!");
 
+                String symbol = symbolField.getText();
+
+                aliceBar.setString("ALICE (" + symbol + ")");
+                bobBar.setString("BOB (" + symbol + ")");
+                charlieBar.setString("CHARLIE (" + symbol + ")");
+                
                 String colour = (String) colourSelector.getSelectedItem();
                 if (colour.equals("Blue"))
                 {
@@ -257,7 +262,7 @@ public class MainGUI {
             }
         });
 
-        JPanel topPanel = new JPanel(new GridLayout(9,1));
+        JPanel topPanel = new JPanel(new GridLayout(11,1));
         topPanel.add(titleLabel);
         topPanel.add(passageLabel);
         topPanel.add(passageSelector);
@@ -268,6 +273,7 @@ public class MainGUI {
         topPanel.add(styleSelector);
         topPanel.add(keyboardSelector);
         topPanel.add(colourSelector);
+        topPanel.add(symbolField);
 
         frame.add(topPanel, BorderLayout.NORTH);
         frame.add(racePanel, BorderLayout.CENTER);
