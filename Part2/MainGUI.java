@@ -39,6 +39,10 @@ public class MainGUI {
             new String[] {"Touch Typist", "Hunt & Peck", "Phone Thumbs", "Voice-to-Text"}
         );
 
+        JComboBox<String> keyboardSelector = new JComboBox<>(
+            new String[] {"Mechanical", "Membrane", "Touchscreen", "Stenography"}
+        );
+
         JLabel statusLabel = new JLabel("Click 'Start Race' to begin.", SwingConstants.CENTER);
 
         final String[] passage = {"The quick brown fox jumps over the lazy dog."};
@@ -144,6 +148,33 @@ public class MainGUI {
                         charlieMove +=2;
                     }
 
+                    String keyboard = (String) keyboardSelector.getSelectedItem();
+
+                    if(keyboard.equals("Mechanical"))
+                    {
+                        aliceMove += 2;
+                        bobMove += 2;
+                        charlieMove +=2;
+                    }
+                    else if(keyboard.equals("Membrane"))
+                    {
+                        aliceMove += 1;
+                        bobMove += 1;
+                        charlieMove +=1;
+                    }
+                    else if(keyboard.equals("Touchscreen"))
+                    {
+                        aliceMove = Math.max(0, aliceMove - 1);
+                        bobMove = Math.max(0, bobMove - 1);
+                        charlieMove = Math.max(0, charlieMove - 1);
+                    }
+                    else if(keyboard.equals("Stenography"))
+                    {
+                        aliceMove += 4;
+                        bobMove += 4;
+                        charlieMove +=4;
+                    }
+                    
                     aliceBar.setValue(aliceBar.getValue() + aliceMove);
                     bobBar.setValue(bobBar.getValue() + bobMove);
                     charlieBar.setValue(charlieBar.getValue() + charlieMove);
@@ -196,7 +227,7 @@ public class MainGUI {
             }
         });
 
-        JPanel topPanel = new JPanel(new GridLayout(6,1));
+        JPanel topPanel = new JPanel(new GridLayout(8,1));
         topPanel.add(titleLabel);
         topPanel.add(passageLabel);
         topPanel.add(passageSelector);
@@ -205,6 +236,7 @@ public class MainGUI {
         topPanel.add(nightShiftBox);
         topPanel.add(seatCountSelector);
         topPanel.add(styleSelector);
+        topPanel.add(keyboardSelector);
 
         frame.add(topPanel, BorderLayout.NORTH);
         frame.add(racePanel, BorderLayout.CENTER);
