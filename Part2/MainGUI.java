@@ -54,7 +54,9 @@ public class MainGUI {
         JTextField symbolField = new JTextField("A");
 
         JLabel statusLabel = new JLabel("Click 'Start Race' to begin.", SwingConstants.CENTER);
-
+        
+        final long[] startTime = {0};
+        
         final String[] passage = {"The quick brown fox jumps over the lazy dog."};
 
         JLabel passageLabel = new JLabel("Passage: " + passage[0], SwingConstants.CENTER);
@@ -82,6 +84,8 @@ public class MainGUI {
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 statusLabel.setText("Race Started!");
+
+                startTime[0] = System.currentTimeMillis();
 
                 String symbol = symbolField.getText();
 
@@ -270,17 +274,28 @@ public class MainGUI {
 
                     {
                         ((Timer)e.getSource()).stop();
+                                                    long endTime = System.currentTimeMillis();
+                            double timeSeconds = (endTime - startTime[0]) / 1000.0;
+
+                            double wpm = (passage[0].length() / 5.0) / (timeSeconds / 60.0);
+
+                            double accuracy = 80 + (Math.random() * 20);
+
+                            int burnout = (int)(Math.random() * 3);
+
+                            double accuracyChange = accuracy - 85;
+
                         if (aliceBar.getValue() >= 100)
                         {
-                            statusLabel.setText("ALICE wins!");
+                            statusLabel.setText("ALICE wins! WPM: " + (int)wpm +" | Accuracy: " + (int)accuracy + "% | Burnout: " + burnout + " turns | Accuracy Change: " + (int)accuracyChange + "%");
                         }
                         else if (bobBar.getValue() >= 100)
                         {
-                            statusLabel.setText("BOB wins!");
+                            statusLabel.setText("BOB wins! WPM: " + (int)wpm +" | Accuracy: " + (int)accuracy + "% | Burnout: " + burnout + " turns | Accuracy Change: " + (int)accuracyChange + "%");
                         }
                         else
                         {
-                            statusLabel.setText("CHARLIE wins!");
+                            statusLabel.setText("CHARLIE wins! WPM: " + (int)wpm +" | Accuracy: " + (int)accuracy + "% | Burnout: " + burnout + " turns | Accuracy Change: " + (int)accuracyChange + "%");
                         }
                 }
                 }
