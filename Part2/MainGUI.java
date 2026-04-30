@@ -23,6 +23,10 @@ public class MainGUI {
 
         JCheckBox autocorrectBox = new JCheckBox("Autocorrect");
 
+        JCheckBox caffeineBox = new JCheckBox("Caffeine Mode");
+
+        JCheckBox nightShiftBox = new JCheckBox("Night Shift");
+
         JComboBox<String> passageSelector = new JComboBox<>(
             new String[] {"Short", "Medium", "Long"}
         );
@@ -61,6 +65,14 @@ public class MainGUI {
             public void actionPerformed(ActionEvent e) {
                 statusLabel.setText("Race Started!");
 
+                int seatCount = (Integer) seatCountSelector.getSelectedItem();
+                aliceBar.setVisible(seatCount >= 1);
+                bobBar.setVisible(seatCount >= 2);
+                charlieBar.setVisible(seatCount >= 3);
+
+                racePanel.revalidate();
+                racePanel.repaint();
+
                 String selected = (String) passageSelector.getSelectedItem();
                 if (selected.equals("Short"))
                 {
@@ -81,6 +93,20 @@ public class MainGUI {
                     int aliceMove = (int)(Math.random() * 12);
                     int bobMove = (int)(Math.random() * 8);
                     int charlieMove = (int)(Math.random() * 10);
+
+                    if (caffeineBox.isSelected())
+                    {
+                        aliceMove = (int)(aliceMove * 2);
+                        bobMove = (int)(bobMove * 2);
+                        charlieMove = (int)(charlieMove * 2);
+                    }
+
+                    if (nightShiftBox.isSelected())
+                    {
+                        aliceMove = (int)(aliceMove / 2);
+                        bobMove = (int)(bobMove / 2);
+                        charlieMove = (int)(charlieMove / 2);
+                    }
 
                     if (autocorrectBox.isSelected())
                     {
@@ -146,6 +172,8 @@ public class MainGUI {
         topPanel.add(passageLabel);
         topPanel.add(passageSelector);
         topPanel.add(autocorrectBox);
+        topPanel.add(caffeineBox);
+        topPanel.add(nightShiftBox);
         topPanel.add(seatCountSelector);
 
         frame.add(topPanel, BorderLayout.NORTH);
