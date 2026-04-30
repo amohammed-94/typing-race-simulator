@@ -43,6 +43,10 @@ public class MainGUI {
             new String[] {"Mechanical", "Membrane", "Touchscreen", "Stenography"}
         );
 
+        JComboBox<String> colourSelector = new JComboBox<>(
+            new String[] {"Blue", "Red", "Green", "Orange"}
+        );
+
         JLabel statusLabel = new JLabel("Click 'Start Race' to begin.", SwingConstants.CENTER);
 
         final String[] passage = {"The quick brown fox jumps over the lazy dog."};
@@ -72,6 +76,32 @@ public class MainGUI {
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 statusLabel.setText("Race Started!");
+
+                String colour = (String) colourSelector.getSelectedItem();
+                if (colour.equals("Blue"))
+                {
+                    aliceBar.setForeground(java.awt.Color.BLUE);
+                    bobBar.setForeground(java.awt.Color.BLUE);
+                    charlieBar.setForeground(java.awt.Color.BLUE);
+                }
+                else if (colour.equals("Red"))
+                {
+                    aliceBar.setForeground(java.awt.Color.RED);
+                    bobBar.setForeground(java.awt.Color.RED);
+                    charlieBar.setForeground(java.awt.Color.RED);
+                }
+                else if (colour.equals("Green"))
+                {
+                    aliceBar.setForeground(java.awt.Color.GREEN);
+                    bobBar.setForeground(java.awt.Color.GREEN);
+                    charlieBar.setForeground(java.awt.Color.GREEN);
+                }
+                else if (colour.equals("Orange"))
+                {
+                    aliceBar.setForeground(java.awt.Color.ORANGE);
+                    bobBar.setForeground(java.awt.Color.ORANGE);
+                    charlieBar.setForeground(java.awt.Color.ORANGE);
+                }
 
                 int seatCount = (Integer) seatCountSelector.getSelectedItem();
                 aliceBar.setVisible(seatCount >= 1);
@@ -174,7 +204,7 @@ public class MainGUI {
                         bobMove += 4;
                         charlieMove +=4;
                     }
-                    
+
                     aliceBar.setValue(aliceBar.getValue() + aliceMove);
                     bobBar.setValue(bobBar.getValue() + bobMove);
                     charlieBar.setValue(charlieBar.getValue() + charlieMove);
@@ -227,7 +257,7 @@ public class MainGUI {
             }
         });
 
-        JPanel topPanel = new JPanel(new GridLayout(8,1));
+        JPanel topPanel = new JPanel(new GridLayout(9,1));
         topPanel.add(titleLabel);
         topPanel.add(passageLabel);
         topPanel.add(passageSelector);
@@ -237,6 +267,7 @@ public class MainGUI {
         topPanel.add(seatCountSelector);
         topPanel.add(styleSelector);
         topPanel.add(keyboardSelector);
+        topPanel.add(colourSelector);
 
         frame.add(topPanel, BorderLayout.NORTH);
         frame.add(racePanel, BorderLayout.CENTER);
