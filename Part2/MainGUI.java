@@ -55,8 +55,14 @@ public class MainGUI {
 
         JLabel statusLabel = new JLabel("Click 'Start Race' to begin.", SwingConstants.CENTER);
         
+        JLabel bestLabel = new JLabel("Personal Bests: ALICE - 0 WPM | BOB - 0 WPM | CHARLIE - 0 WPM", SwingConstants.CENTER);
+
         final long[] startTime = {0};
-        
+
+        final double[] aliceBestWPM = new double[1];
+        final double[] bobBestWPM = new double[1];
+        final double[] charlieBestWPM = new double[1];
+
         final String[] passage = {"The quick brown fox jumps over the lazy dog."};
 
         JLabel passageLabel = new JLabel("Passage: " + passage[0], SwingConstants.CENTER);
@@ -268,40 +274,50 @@ public class MainGUI {
 
                 if (aliceBar.getValue() >= 100 ||
                     bobBar.getValue() >= 100 ||
-                    charlieBar.getValue() >= 100)
+                    charlieBar.getValue() >= 100)                  
 
-                    
+                {
+                    ((Timer)e.getSource()).stop();
 
-                    {
-                        ((Timer)e.getSource()).stop();
-                                                    long endTime = System.currentTimeMillis();
-                            double timeSeconds = (endTime - startTime[0]) / 1000.0;
+                    long endTime = System.currentTimeMillis();
+                    double timeSeconds = (endTime - startTime[0]) / 1000.0;
+                            
+                    double wpm = (passage[0].length() / 5.0) / (timeSeconds / 60.0);
+                    double accuracy = 80 + (Math.random() * 20);
+                    int burnout = (int)(Math.random() * 3);
+                    double accuracyChange = accuracy - 85;
 
-                            double wpm = (passage[0].length() / 5.0) / (timeSeconds / 60.0);
-
-                            double accuracy = 80 + (Math.random() * 20);
-
-                            int burnout = (int)(Math.random() * 3);
-
-                            double accuracyChange = accuracy - 85;
-
-                        if (aliceBar.getValue() >= 100)
+                    if (aliceBar.getValue() >= 100)
                         {
+                            if (wpm > aliceBestWPM[0])
+                            {
+                                aliceBestWPM[0] = wpm;
+                            }
                             statusLabel.setText("ALICE wins! WPM: " + (int)wpm +" | Accuracy: " + (int)accuracy + "% | Burnout: " + burnout + " turns | Accuracy Change: " + (int)accuracyChange + "%");
                         }
                         else if (bobBar.getValue() >= 100)
                         {
+                            if(wpm > bobBestWPM[0])
+                            {
+                                bobBestWPM[0] = wpm;
+                            }
+
                             statusLabel.setText("BOB wins! WPM: " + (int)wpm +" | Accuracy: " + (int)accuracy + "% | Burnout: " + burnout + " turns | Accuracy Change: " + (int)accuracyChange + "%");
                         }
                         else
                         {
+                            if(wpm > charlieBestWPM[0])
+                            {
+                                charlieBestWPM[0] = wpm;
+                            }
                             statusLabel.setText("CHARLIE wins! WPM: " + (int)wpm +" | Accuracy: " + (int)accuracy + "% | Burnout: " + burnout + " turns | Accuracy Change: " + (int)accuracyChange + "%");
                         }
-                }
-                }
-        });
-
-        timer.start();
+                            bestLabel.setText("Personal Bests: ALICE - " + (int)aliceBestWPM[0] + " WPM | BOB - " + (int)bobBestWPM[0] + " WPM | CHARLIE - " + (int)charlieBestWPM[0] + " WPM");
+                    }
+                }    
+                });
+                
+                timer.start();
     }
         });
 
@@ -314,7 +330,7 @@ public class MainGUI {
             }
         });
 
-        JPanel topPanel = new JPanel(new GridLayout(14,1));
+        JPanel topPanel = new JPanel(new GridLayout(15,1));
         topPanel.add(titleLabel);
         topPanel.add(passageLabel);
         topPanel.add(passageSelector);
@@ -334,7 +350,13 @@ public class MainGUI {
         frame.add(racePanel, BorderLayout.CENTER);
         frame.add(startButton, BorderLayout.WEST);
         frame.add(resetButton, BorderLayout.EAST);
-        frame.add(statusLabel, BorderLayout.SOUTH);
+        
+        JPanel bottomPanel = new JPanel(new GridLayout(2,1));
+        bottomPanel.add(statusLabel);
+        bottomPanel.add(bestLabel);
+
+        frame.add(bottomPanel, BorderLayout.SOUTH);
+
         frame.setVisible(true);
     }
 }
