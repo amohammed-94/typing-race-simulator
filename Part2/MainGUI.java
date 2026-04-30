@@ -35,6 +35,10 @@ public class MainGUI {
             new Integer[] {2, 3, 4, 5, 6}
         );
 
+        JComboBox<String> styleSelector = new JComboBox<>(
+            new String[] {"Touch Typist", "Hunt & Peck", "Phone Thumbs", "Voice-to-Text"}
+        );
+
         JLabel statusLabel = new JLabel("Click 'Start Race' to begin.", SwingConstants.CENTER);
 
         final String[] passage = {"The quick brown fox jumps over the lazy dog."};
@@ -115,6 +119,31 @@ public class MainGUI {
                         charlieMove = charlieMove / 2;
                     }
 
+                    if(styleSelector.getSelectedItem().equals("Hunt & Peck"))
+                    {
+                        aliceMove = Math.max(0, aliceMove - 2);
+                        bobMove = Math.max(0, bobMove - 2);
+                        charlieMove = Math.max(0, charlieMove - 2);
+                    }
+                    else if(styleSelector.getSelectedItem().equals("Phone Thumbs"))
+                    {
+                        aliceMove += 1;
+                        bobMove += 1;
+                        charlieMove +=1;
+                    }
+                    else if(styleSelector.getSelectedItem().equals("Voice-to-Text"))
+                    {
+                        aliceMove += 3;
+                        bobMove += 3;
+                        charlieMove +=3;
+                    }
+                    else if(styleSelector.getSelectedItem().equals("Touch Typist"))
+                    {
+                        aliceMove += 2;
+                        bobMove += 2;
+                        charlieMove +=2;
+                    }
+
                     aliceBar.setValue(aliceBar.getValue() + aliceMove);
                     bobBar.setValue(bobBar.getValue() + bobMove);
                     charlieBar.setValue(charlieBar.getValue() + charlieMove);
@@ -167,7 +196,7 @@ public class MainGUI {
             }
         });
 
-        JPanel topPanel = new JPanel(new GridLayout(5,1));
+        JPanel topPanel = new JPanel(new GridLayout(6,1));
         topPanel.add(titleLabel);
         topPanel.add(passageLabel);
         topPanel.add(passageSelector);
@@ -175,6 +204,7 @@ public class MainGUI {
         topPanel.add(caffeineBox);
         topPanel.add(nightShiftBox);
         topPanel.add(seatCountSelector);
+        topPanel.add(styleSelector);
 
         frame.add(topPanel, BorderLayout.NORTH);
         frame.add(racePanel, BorderLayout.CENTER);
