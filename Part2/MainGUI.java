@@ -47,6 +47,10 @@ public class MainGUI {
             new String[] {"Blue", "Red", "Green", "Orange"}
         );
 
+        JCheckBox wristSupportBox = new JCheckBox("Wrist Support");
+        JCheckBox energyDrinkBox = new JCheckBox("Energy Drink");
+        JCheckBox headphonesBox = new JCheckBox("Noise-Cancelling Headphones");
+
         JTextField symbolField = new JTextField("A");
 
         JLabel statusLabel = new JLabel("Click 'Start Race' to begin.", SwingConstants.CENTER);
@@ -61,12 +65,15 @@ public class MainGUI {
 
         JProgressBar aliceBar = new JProgressBar(0, 100);
         aliceBar.setStringPainted(true);
+        aliceBar.setString("ALICE");
 
         JProgressBar bobBar = new JProgressBar(0, 100);
         bobBar.setStringPainted(true);
+        bobBar.setString("BOB");
 
         JProgressBar charlieBar = new JProgressBar(0, 100);
         charlieBar.setStringPainted(true);
+        charlieBar.setString("CHARLIE");
 
         racePanel.add(aliceBar);
         racePanel.add(bobBar);
@@ -210,6 +217,36 @@ public class MainGUI {
                         charlieMove +=4;
                     }
 
+                    if(wristSupportBox.isSelected())
+                    {
+                        aliceMove = Math.max(aliceMove, 2);
+                        bobMove = Math.max(bobMove, 2);
+                        charlieMove = Math.max(charlieMove, 2);
+                    }
+                    if(energyDrinkBox.isSelected())
+                    {
+                        if (aliceBar.getValue() <50)
+                        {
+                            aliceMove += 2;
+                            bobMove += 2;
+                            charlieMove +=2;
+
+                        }
+                        else
+                        {
+                            aliceMove = Math.max(0, aliceMove - 2);
+                            bobMove = Math.max(0, bobMove - 2);
+                            charlieMove = Math.max(0, charlieMove - 2);
+                        }
+
+                    }
+                    if(headphonesBox.isSelected())
+                    {
+                        aliceMove = (aliceMove + 2) / 2;
+                        bobMove = (bobMove + 2) / 2;
+                        charlieMove = (charlieMove + 2) / 2;
+                    }
+
                     aliceBar.setValue(aliceBar.getValue() + aliceMove);
                     bobBar.setValue(bobBar.getValue() + bobMove);
                     charlieBar.setValue(charlieBar.getValue() + charlieMove);
@@ -262,7 +299,7 @@ public class MainGUI {
             }
         });
 
-        JPanel topPanel = new JPanel(new GridLayout(11,1));
+        JPanel topPanel = new JPanel(new GridLayout(14,1));
         topPanel.add(titleLabel);
         topPanel.add(passageLabel);
         topPanel.add(passageSelector);
@@ -274,6 +311,9 @@ public class MainGUI {
         topPanel.add(keyboardSelector);
         topPanel.add(colourSelector);
         topPanel.add(symbolField);
+        topPanel.add(wristSupportBox);
+        topPanel.add(energyDrinkBox);
+        topPanel.add(headphonesBox);
 
         frame.add(topPanel, BorderLayout.NORTH);
         frame.add(racePanel, BorderLayout.CENTER);
