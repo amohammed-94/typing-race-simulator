@@ -72,6 +72,10 @@ public class MainGUI {
         final int[] bobPoints = {0};
         final int[] charliePoints = {0};
 
+        final int[] aliceWins = {0};
+        final int[] bobWins = {0};
+        final int[] charlieWins = {0};
+
         final String[] passage = {"The quick brown fox jumps over the lazy dog."};
 
         JLabel passageLabel = new JLabel("Passage: " + passage[0], SwingConstants.CENTER);
@@ -189,6 +193,7 @@ public class MainGUI {
                         charlieMove = charlieMove / 2;
                     }
 
+
                     if(styleSelector.getSelectedItem().equals("Hunt & Peck"))
                     {
                         aliceMove = Math.max(0, aliceMove - 2);
@@ -295,42 +300,74 @@ public class MainGUI {
 
                     long endTime = System.currentTimeMillis();
                     double timeSeconds = (endTime - startTime[0]) / 1000.0;
-                            
+
+                    double aliceBonus = 0;
+                    double bobBonus = 0;
+                    double charlieBonus = 0;
+
+                    int maxPoints = Math.max(alicePoints[0], Math.max(bobPoints[0], charliePoints[0]));
+
+                    if (alicePoints[0] == maxPoints)
+                    {
+                        aliceBonus = 5;
+                    }
+                    if (bobPoints[0] == maxPoints)
+                    {
+                        bobBonus = 5;
+                    }
+                    if (charliePoints[0] == maxPoints)
+                    {
+                        charlieBonus = 5;
+                    }
+
+                    double aliceWPM = ((aliceBar.getValue() / 100.0) * passage[0].length() / 5.0) / (timeSeconds / 60.0);
+                    double bobWPM = ((bobBar.getValue() / 100.0) * passage[0].length() / 5.0) / (timeSeconds / 60.0);
+                    double charlieWPM = ((charlieBar.getValue() / 100.0) * passage[0].length() / 5.0) / (timeSeconds / 60.0);
+
+                        if (aliceWPM > aliceBestWPM[0])
+                        {
+                            aliceBestWPM[0] = aliceWPM;
+                        }
+                        if (bobWPM > bobBestWPM[0])
+                        {
+                            bobBestWPM[0] = bobWPM;
+                        }
+                        if (charlieWPM > charlieBestWPM[0])
+                        {
+                            charlieBestWPM[0] = charlieWPM;
+                        }
+
                     double wpm = (passage[0].length() / 5.0) / (timeSeconds / 60.0);
-                    double accuracy = 80 + (Math.random() * 20);
+
+                    double aliceAccuracy = 80 + (Math.random() * 20) + aliceBonus;
+                    double bobAccuracy = 80 + (Math.random() * 20) + bobBonus;
+                    double charlieAccuracy = 80 + (Math.random() * 20) + charlieBonus;
+
                     int burnout = (int)(Math.random() * 3);
-                    double accuracyChange = accuracy - 85;
+                    double aliceAccuracyChange = aliceAccuracy - 85;
+                    double bobAccuracyChange = bobAccuracy - 85;
+                    double charlieAccuracyChange = charlieAccuracy - 85;
 
                     String winnerName = "";
 
                     if (aliceBar.getValue() >= 100)
                         {
                             winnerName = "ALICE";
-                            if (wpm > aliceBestWPM[0])
-                            {
-                                aliceBestWPM[0] = wpm;
-                            }
-                            statusLabel.setText("ALICE wins! WPM: " + (int)wpm +" | Accuracy: " + (int)accuracy + "% | Burnout: " + burnout + " turns | Accuracy Change: " + (int)accuracyChange + "%");
+                            statusLabel.setText("ALICE wins! WPM: " + (int)wpm +" | Accuracy: " + (int)aliceAccuracy + "% | Burnout: " + burnout + " turns | Accuracy Change: " + (int)aliceAccuracyChange + "%");
                         }
                         else if (bobBar.getValue() >= 100)
                         {
                             winnerName = "BOB";
-                            if(wpm > bobBestWPM[0])
-                            {
-                                bobBestWPM[0] = wpm;
-                            }
 
-                            statusLabel.setText("BOB wins! WPM: " + (int)wpm +" | Accuracy: " + (int)accuracy + "% | Burnout: " + burnout + " turns | Accuracy Change: " + (int)accuracyChange + "%");
+                            statusLabel.setText("BOB wins! WPM: " + (int)wpm +" | Accuracy: " + (int)bobAccuracy + "% | Burnout: " + burnout + " turns | Accuracy Change: " + (int)bobAccuracyChange + "%");
                         }
                         else
                         {
                             winnerName = "CHARLIE";
-                            if(wpm > charlieBestWPM[0])
-                            {
-                                charlieBestWPM[0] = wpm;
-                            }
-                            statusLabel.setText("CHARLIE wins! WPM: " + (int)wpm +" | Accuracy: " + (int)accuracy + "% | Burnout: " + burnout + " turns | Accuracy Change: " + (int)accuracyChange + "%");
+                            statusLabel.setText("CHARLIE wins! WPM: " + (int)wpm +" | Accuracy: " + (int)charlieAccuracy + "% | Burnout: " + burnout + " turns | Accuracy Change: " + (int)charlieAccuracyChange + "%");
                         }
+
+                        leaderboardLabel.setText("Leaderboard: ALICE - " + alicePoints[0] + "pts | BOB - " + bobPoints[0] + "pts | CHARLIE - " + charliePoints[0] + "pts");
 
                         if(winnerName.equals("ALICE"))
                         {
@@ -345,12 +382,16 @@ public class MainGUI {
                             charliePoints[0]+=3;
                         }
 
-                        leaderboardLabel.setText("Leaderboard: ALICE - " + alicePoints[0] + "pts | BOB - " + bobPoints[0] + "pts | CHARLIE - " + charliePoints[0] + "pts");
+                        String aliceTitle = aliceWins[0] >= 3 ? "Speed Demon" : "Rookie";
+                        String bobTitle = bobWins[0] >= 3 ? "Speed Demon" : "Rookie";
+                        String charlieTitle = charlieWins[0] >= 3 ? "Speed Demon" : "Rookie";
+
+                        leaderboardLabel.setText("Leaderboard: ALICE - " + alicePoints[0] + "pts (" + aliceTitle + ") | BOB - " + bobPoints[0] + "pts (" + bobTitle + ") | CHARLIE - " + charliePoints[0] + "pts (" + charlieTitle + ")");
 
                         bestLabel.setText("Personal Bests: ALICE - " + (int)aliceBestWPM[0] + " WPM | BOB - " + (int)bobBestWPM[0] + " WPM | CHARLIE - " + (int)charlieBestWPM[0] + " WPM");
 
                             historyArea.append(
-                                winnerName + " won | WPM: " + (int)wpm + " | Accuracy: " + (int)accuracy + "% | Burnout: " + burnout + " turns | Accuracy Change: " + (int)accuracyChange + "%\n"
+                                winnerName + " won | WPM: " + (int)wpm + " | Accuracy: " + (int)aliceAccuracy + "% | Burnout: " + burnout + " turns | Accuracy Change: " + (int)aliceAccuracyChange + "%\n"
                             );
                     }
                 }    
